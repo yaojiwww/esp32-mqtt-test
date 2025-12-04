@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<body>
+  <h1>ESP32 实时数据</h1>
+  <h2 id="state" style="font-size:40px;"></h2>
+
+  <script>
+    const ws = new WebSocket("ws://localhost:8080");
+
+    ws.onmessage = (e) => {
+      let data = e.data;
+      console.log("Web => ", data);
+
+      document.getElementById("state").textContent =
+        data === "1" ? "LED ON" : "LED OFF";
+
+      document.getElementById("state").style.color =
+        data === "1" ? "green" : "red";
+    }
+  </script>
+</body>
+</html>
