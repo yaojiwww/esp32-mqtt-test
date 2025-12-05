@@ -1,15 +1,15 @@
 #include <WiFi.h>
 #include <PubSubClient.h>
+#define led 15
+const char* ssid = "清寒不喜争抢";
+const char* password = "sg8917301";
 
-const char* ssid = "你的wifi名";
-const char* password = "你的wifi密码";
-
-const char* mqtt_server = "你的电脑IP";
+const char* mqtt_server = "172.17.180.60";
 
 WiFiClient espClient;
 PubSubClient client(espClient);
 
-int led = 2;
+// int led = 15;
 bool ledState = false;
 
 void setupWifi() {
@@ -32,7 +32,7 @@ void reconnect() {
 void setup() {
   pinMode(led, OUTPUT);
   Serial.begin(115200);
-
+  digitalWrite(led,HIGH);
   setupWifi();
 
   client.setServer(mqtt_server, 1883);
@@ -42,10 +42,10 @@ void loop() {
   if (!client.connected()) reconnect();
   client.loop();
 
-  ledState = !ledState;
-  digitalWrite(led, ledState);
+  // ledState = !ledState;
+  // digitalWrite(led, ledState);
 
-  client.publish("esp32/data", ledState ? "1" : "0");
+  client.publish("esp32/data", "1");
 
   delay(1000);
 }
